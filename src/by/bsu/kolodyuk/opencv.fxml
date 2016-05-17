@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.*?>
+
+<BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.kolodyuk.OpenCVController">
+    <bottom>
+        <FlowPane alignment="CENTER" hgap="5.0" vgap="5.0">
+            <padding>
+                <Insets bottom="25" left="25" right="25" top="25" />
+            </padding>
+            <children>
+                <Button mnemonicParsing="false" onAction="#onLoadImageButtonPressed" text="Load Image" />
+                <Button mnemonicParsing="false" onAction="#onShowImageButtonPressed" text="Show Image" />
+                <Button mnemonicParsing="false" onAction="#onGrayscaleButtonPressed" text="Grayscale" />
+                <Button mnemonicParsing="false" onAction="#onShowHistogramButtonPressed" text="Show Histogram" />
+                <Button mnemonicParsing="false" onAction="#onBinarizateButtonPressed" text="Binarizate" />
+                <Button mnemonicParsing="false" onAction="#onRemoveBinaryNoiseButtonPressed" text="Remove Binary Noise" />
+                <Button mnemonicParsing="false" onAction="#onRemoveGrayscaleAverageNoiseButtonPressed" text="Remove Grayscale Noise (Average)" />
+                <Button mnemonicParsing="false" onAction="#onRemoveGrayscaleMedianNoiseButtonPressed" text="Remove Grayscale Noise (Median)" />
+            </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+        </FlowPane>
+    </bottom>
+    <center>
+        <ImageView fx:id="imageView" fitHeight="500" fitWidth="700" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+    </center>
+</BorderPane>

@@ -9,7 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
 
-public class Fourier extends Application
+public class OpenCVApp extends Application
 {
 	// the main stage
 	private Stage primaryStage;
@@ -20,20 +20,20 @@ public class Fourier extends Application
 		try
 		{
 			// load the FXML resource
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Fourier.fxml"));
-			BorderPane root = (BorderPane) loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("opencv.fxml"));
+			BorderPane root = loader.load();
 			// set a whitesmoke background
 			root.setStyle("-fx-background-color: whitesmoke;");
-			Scene scene = new Scene(root, 1000, 700);
+			Scene scene = new Scene(root, 800, 600);
 			// create the stage with the given title and the previously created
 			// scene
 			this.primaryStage = primaryStage;
-			this.primaryStage.setTitle("Fourier");
+			this.primaryStage.setTitle("Image Editor");
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 			
 			// init the controller
-			FourierController controller = loader.getController();
+			OpenCVController controller = loader.getController();
 			controller.setStage(this.primaryStage);
 			controller.init();
 		}
