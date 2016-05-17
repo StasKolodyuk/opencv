@@ -1,4 +1,4 @@
-package it.polito.teaching.cv;
+package by.bsu.kolodyuk;
 
 import org.opencv.core.Core;
 
@@ -8,18 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
-/**
- * The main class for a JavaFX application. It creates and handle the main
- * window with its resources (style, graphics, etc.).
- * 
- * This application opens an image stored on disk and perform the Fourier
- * transformation and antitranformation.
- * 
- * @author <a href="mailto:luigi.derussis@polito.it">Luigi De Russis</a>
- * @version 1.1 (2015-11-03)
- * @since 1.0 (2013-12-11)
- * 
- */
+
 public class Fourier extends Application
 {
 	// the main stage
@@ -35,8 +24,7 @@ public class Fourier extends Application
 			BorderPane root = (BorderPane) loader.load();
 			// set a whitesmoke background
 			root.setStyle("-fx-background-color: whitesmoke;");
-			Scene scene = new Scene(root, 800, 600);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			Scene scene = new Scene(root, 1000, 700);
 			// create the stage with the given title and the previously created
 			// scene
 			this.primaryStage = primaryStage;
@@ -54,7 +42,7 @@ public class Fourier extends Application
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args)
 	{
 		// load the native OpenCV library
