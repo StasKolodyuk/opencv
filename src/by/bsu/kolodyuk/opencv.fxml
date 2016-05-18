@@ -22,6 +22,8 @@
                 <Button mnemonicParsing="false" onAction="#onRemoveBinaryNoiseButtonPressed" text="Remove Binary Noise" />
                 <Button mnemonicParsing="false" onAction="#onRemoveGrayscaleAverageNoiseButtonPressed" text="Remove Grayscale Noise (Average)" />
                 <Button mnemonicParsing="false" onAction="#onRemoveGrayscaleMedianNoiseButtonPressed" text="Remove Grayscale Noise (Median)" />
+                <Button mnemonicParsing="false" onAction="#onErodeButtonPressed" text="Erode" />
+                <Button mnemonicParsing="false" onAction="#onDilateButtonPressed" text="Dialte" />
             </children>
          <opaqueInsets>
             <Insets />

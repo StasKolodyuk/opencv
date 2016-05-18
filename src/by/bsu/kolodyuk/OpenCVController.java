@@ -79,6 +79,20 @@ public class OpenCVController
         imageView.setImage(mat2Image(image));
     }
 
+    @FXML
+    public void onErodeButtonPressed() {
+        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(5, 5));
+        Imgproc.erode(image, image, element);
+        imageView.setImage(mat2Image(image));
+    }
+
+    @FXML
+    public void onDilateButtonPressed() {
+        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(5, 5));
+        Imgproc.dilate(image, image, element);
+        imageView.setImage(mat2Image(image));
+    }
+
 	public void setStage(Stage stage)
 	{
 		this.stage = stage;
