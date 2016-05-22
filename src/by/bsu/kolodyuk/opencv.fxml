@@ -9,7 +9,7 @@
 
 <BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.kolodyuk.OpenCVController">
     <bottom>
-        <FlowPane alignment="CENTER" hgap="5.0" vgap="5.0">
+        <FlowPane alignment="CENTER" hgap="5.0" prefHeight="140.0" prefWidth="900.0" vgap="5.0">
             <padding>
                 <Insets bottom="25" left="25" right="25" top="25" />
             </padding>
@@ -22,8 +22,14 @@
                 <Button mnemonicParsing="false" onAction="#onRemoveBinaryNoiseButtonPressed" text="Remove Binary Noise" />
                 <Button mnemonicParsing="false" onAction="#onRemoveGrayscaleAverageNoiseButtonPressed" text="Remove Grayscale Noise (Average)" />
                 <Button mnemonicParsing="false" onAction="#onRemoveGrayscaleMedianNoiseButtonPressed" text="Remove Grayscale Noise (Median)" />
+                <Button mnemonicParsing="false" onAction="#onBinaryBorderButtonPressed" text="Binary Border" />
+                <Button mnemonicParsing="false" onAction="#onCannyBorderButtonPressed" text="Canny Border" />
+                <Button mnemonicParsing="false" onAction="#onLaplacianBorderButtonPressed" text="Laplacian Border" />
                 <Button mnemonicParsing="false" onAction="#onErodeButtonPressed" text="Erode" />
-                <Button mnemonicParsing="false" onAction="#onDilateButtonPressed" text="Dialte" />
+                <Button mnemonicParsing="false" onAction="#onDilateButtonPressed" text="Dilate" />
+                <Button mnemonicParsing="false" onAction="#onOpeningButtonPressed" text="Opening" />
+                <Button mnemonicParsing="false" onAction="#onClosingButtonPressed" text="Closing" />
+                <Button mnemonicParsing="false" onAction="#onWatershedButtonPressed" text="Watershed" />
             </children>
          <opaqueInsets>
             <Insets />

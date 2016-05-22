@@ -80,6 +80,28 @@ public class OpenCVController
     }
 
     @FXML
+    public void onBinaryBorderButtonPressed() {
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(image, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+        Imgproc.drawContours(image, contours, -1, new Scalar(255, 0, 0), 3);
+        imageView.setImage(mat2Image(image));
+    }
+
+    @FXML
+    public void onCannyBorderButtonPressed() {
+        Mat borderImage = new Mat();
+        Imgproc.Canny(image, borderImage, 50, 150, 3, true);
+        imageView.setImage(mat2Image(borderImage));
+    }
+
+    @FXML
+    public void onLaplacianBorderButtonPressed() {
+        Mat borderImage = new Mat();
+        Imgproc.Laplacian(image, borderImage, image.depth(), 5, 1, 0, Core.BORDER_DEFAULT);
+        imageView.setImage(mat2Image(borderImage));
+    }
+
+    @FXML
     public void onErodeButtonPressed() {
         Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(5, 5));
         Imgproc.erode(image, image, element);
@@ -90,6 +112,52 @@ public class OpenCVController
     public void onDilateButtonPressed() {
         Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(5, 5));
         Imgproc.dilate(image, image, element);
+        imageView.setImage(mat2Image(image));
+    }
+
+    @FXML
+    public void onOpeningButtonPressed() {
+        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(5, 5));
+        Imgproc.morphologyEx(image, image, Imgproc.MORPH_OPEN, element);
+        imageView.setImage(mat2Image(image));
+    }
+
+    @FXML
+    public void onClosingButtonPressed() {
+        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(5, 5));
+        Imgproc.morphologyEx(image, image, Imgproc.MORPH_CLOSE, element);
+        imageView.setImage(mat2Image(image));
+    }
+
+    @FXML
+    public void onWatershedButtonPressed() {
+        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(3, 3));
+
+        // Binarization
+        Imgproc.threshold(image, image, 0, 255, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
+
+        // Noise Removal
+        Mat opening = new Mat();
+        Imgproc.morphologyEx(image, opening, Imgproc.MORPH_OPEN, element);
+        Imgproc.morphologyEx(image, opening, Imgproc.MORPH_OPEN, element);
+
+        // Sure Background
+        Mat back = new Mat(image.size(), CvType.CV_8U);
+        Imgproc.dilate(image, back, element);
+        Imgproc.dilate(image, back, element);
+        Imgproc.dilate(image, back, element);
+
+        // Sure Foreground
+        Mat fore = new Mat(image.size(), CvType.CV_8U);
+        Imgproc.distanceTransform(opening, fore, Imgproc.DIST_L2, 5);
+        Imgproc.threshold(fore, fore, Core.minMaxLoc(fore).maxVal * 0.7, 255, 0);
+
+        Mat markers = new Mat();
+        markers.convertTo(markers, CvType.CV_32S);
+
+        // Fails
+        Imgproc.watershed(image, markers);
+
         imageView.setImage(mat2Image(image));
     }
 
