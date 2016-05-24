@@ -161,6 +161,34 @@ public class OpenCVController
         imageView.setImage(mat2Image(image));
     }
 
+    /*@FXML
+    public void onWatershedButtonPressed() {
+        Imgproc.threshold(image, image, 127, 255, Imgproc.THRESH_BINARY);
+        imageView.setImage(mat2Image(image));
+
+        Mat binary = image;
+
+        // Eliminate noise and smaller objects
+        Mat fg = new Mat();
+        Imgproc.erode(binary, fg, new Mat(), new Point(-1, -1), 2);
+
+        // Identify image pixels without objects
+        Mat bg = new Mat();
+        Imgproc.dilate(binary, bg, new Mat(), new Point(-1, -1), 3);
+        Imgproc.threshold(bg, bg, 1, 128, Imgproc.THRESH_BINARY_INV);
+
+// Create markers image
+        Mat markers = new Mat(binary.size(), CvType.CV_8U, new Scalar(0));
+        Core.add(fg, bg, markers);
+//        markers = fg+bg;
+
+        markers.convertTo(markers, CvType.CV_8U);
+        Imgproc.watershed(image, markers);
+
+        markers.convertTo(markers,CvType.CV_8U);
+        imageView.setImage(mat2Image(image));
+    }*/
+
 	public void setStage(Stage stage)
 	{
 		this.stage = stage;
