@@ -2,9 +2,15 @@ package by.bsu.kolodyuk;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import by.bsu.kolodyuk.imagefunctions.KMeans;
+import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.WritableImage;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import javafx.fxml.FXML;
@@ -13,6 +19,13 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.imgproc.Imgproc;
+import by.bsu.kolodyuk.imagefunctions.ExtendedImage;
+import by.bsu.kolodyuk.imagefunctions.ImageRecognizer;
+import by.bsu.kolodyuk.imagefunctions.Pattern;
+import by.bsu.kolodyuk.imagefunctions.PatternGenerator;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public class OpenCVController
 {
@@ -20,17 +33,19 @@ public class OpenCVController
 	private ImageView imageView;
 	private Stage stage;
 	private FileChooser fileChooser;
+    private File file;
 	private Mat image;
     private boolean grayscaled;
 
 	protected void init() {
 		this.fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("C:/Users/Stanislau_Kaladziuk/Desktop"));
 		this.image = new Mat();
 	}
 
 	@FXML
 	public void onLoadImageButtonPressed() {
-		File file = this.fileChooser.showOpenDialog(this.stage);
+		file = this.fileChooser.showOpenDialog(this.stage);
 		if (file != null) {
 			image = Imgcodecs.imread(file.getAbsolutePath());
 			imageView.setImage(mat2Image(image));
@@ -130,64 +145,26 @@ public class OpenCVController
     }
 
     @FXML
-    public void onWatershedButtonPressed() {
-        Mat element = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new  Size(3, 3));
-
-        // Binarization
-        Imgproc.threshold(image, image, 0, 255, Imgproc.THRESH_BINARY_INV + Imgproc.THRESH_OTSU);
-
-        // Noise Removal
-        Mat opening = new Mat();
-        Imgproc.morphologyEx(image, opening, Imgproc.MORPH_OPEN, element);
-        Imgproc.morphologyEx(image, opening, Imgproc.MORPH_OPEN, element);
-
-        // Sure Background
-        Mat back = new Mat(image.size(), CvType.CV_8U);
-        Imgproc.dilate(image, back, element);
-        Imgproc.dilate(image, back, element);
-        Imgproc.dilate(image, back, element);
-
-        // Sure Foreground
-        Mat fore = new Mat(image.size(), CvType.CV_8U);
-        Imgproc.distanceTransform(opening, fore, Imgproc.DIST_L2, 5);
-        Imgproc.threshold(fore, fore, Core.minMaxLoc(fore).maxVal * 0.7, 255, 0);
-
-        Mat markers = new Mat();
-        markers.convertTo(markers, CvType.CV_32S);
-
-        // Fails
-        Imgproc.watershed(image, markers);
-
-        imageView.setImage(mat2Image(image));
+    public void onSegmentationButtonPressed() {
+        WritableImage writableImage = SwingFXUtils.toFXImage(KMeans.doAlg(file.getAbsolutePath(), 3, "-i"), null);
+        imageView.setImage(writableImage);
     }
 
-    /*@FXML
-    public void onWatershedButtonPressed() {
-        Imgproc.threshold(image, image, 127, 255, Imgproc.THRESH_BINARY);
-        imageView.setImage(mat2Image(image));
+    @FXML
+    public void onRecognizeButtonPressed() {
+        Set<Pattern> patterns = PatternGenerator.readFrom(new ImageIcon("symbols.png").getImage());
+        ImageRecognizer recognizer = new ImageRecognizer(patterns);
+        String result = recognizer.applyTo(new ExtendedImage(getImageFromPath()));
+        Platform.runLater(() -> JOptionPane.showMessageDialog(null, result.isEmpty() ? "Couldn't recognize text" : result));
+    }
 
-        Mat binary = image;
-
-        // Eliminate noise and smaller objects
-        Mat fg = new Mat();
-        Imgproc.erode(binary, fg, new Mat(), new Point(-1, -1), 2);
-
-        // Identify image pixels without objects
-        Mat bg = new Mat();
-        Imgproc.dilate(binary, bg, new Mat(), new Point(-1, -1), 3);
-        Imgproc.threshold(bg, bg, 1, 128, Imgproc.THRESH_BINARY_INV);
-
-// Create markers image
-        Mat markers = new Mat(binary.size(), CvType.CV_8U, new Scalar(0));
-        Core.add(fg, bg, markers);
-//        markers = fg+bg;
-
-        markers.convertTo(markers, CvType.CV_8U);
-        Imgproc.watershed(image, markers);
-
-        markers.convertTo(markers,CvType.CV_8U);
-        imageView.setImage(mat2Image(image));
-    }*/
+    public java.awt.Image getImageFromPath() {
+        try {
+            return ImageIO.read(file.getAbsoluteFile());
+        } catch (IOException e) {
+            return null;
+        }
+    }
 
 	public void setStage(Stage stage)
 	{

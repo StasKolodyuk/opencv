@@ -29,7 +29,8 @@
                 <Button mnemonicParsing="false" onAction="#onDilateButtonPressed" text="Dilate" />
                 <Button mnemonicParsing="false" onAction="#onOpeningButtonPressed" text="Opening" />
                 <Button mnemonicParsing="false" onAction="#onClosingButtonPressed" text="Closing" />
-                <Button mnemonicParsing="false" onAction="#onWatershedButtonPressed" text="Watershed" />
+                <Button mnemonicParsing="false" onAction="#onSegmentationButtonPressed" text="Segmentation" />
+                <Button mnemonicParsing="false" onAction="#onRecognizeButtonPressed" text="Recognize" />
             </children>
          <opaqueInsets>
             <Insets />
