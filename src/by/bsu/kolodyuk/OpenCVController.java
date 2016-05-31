@@ -7,10 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import by.bsu.kolodyuk.imagefunctions.KMeans;
+import by.bsu.kolodyuk.imagefunctions.*;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.WritableImage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.SVGPath;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import javafx.fxml.FXML;
@@ -19,16 +23,14 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.opencv.imgproc.Imgproc;
-import by.bsu.kolodyuk.imagefunctions.ExtendedImage;
-import by.bsu.kolodyuk.imagefunctions.ImageRecognizer;
-import by.bsu.kolodyuk.imagefunctions.Pattern;
-import by.bsu.kolodyuk.imagefunctions.PatternGenerator;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class OpenCVController
 {
+    @FXML
+    private BorderPane pane;
 	@FXML
 	private ImageView imageView;
 	private Stage stage;
@@ -156,6 +158,13 @@ public class OpenCVController
         ImageRecognizer recognizer = new ImageRecognizer(patterns);
         String result = recognizer.applyTo(new ExtendedImage(getImageFromPath()));
         Platform.runLater(() -> JOptionPane.showMessageDialog(null, result.isEmpty() ? "Couldn't recognize text" : result));
+    }
+
+    @FXML
+    public void onVectorizeButtonPressed() throws Exception {
+        SVGPath svgPath = new SVGPath();
+        svgPath.setContent(ImageTracer.imageToSVG(file.getAbsolutePath(), null, null));
+        pane.setCenter(svgPath);
     }
 
     public java.awt.Image getImageFromPath() {

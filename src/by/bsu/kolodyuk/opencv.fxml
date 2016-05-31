@@ -7,7 +7,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.*?>
 
-<BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.kolodyuk.OpenCVController">
+<BorderPane fx:id="pane" prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.kolodyuk.OpenCVController">
     <bottom>
         <FlowPane alignment="CENTER" hgap="5.0" prefHeight="140.0" prefWidth="900.0" vgap="5.0">
             <padding>
@@ -31,6 +31,7 @@
                 <Button mnemonicParsing="false" onAction="#onClosingButtonPressed" text="Closing" />
                 <Button mnemonicParsing="false" onAction="#onSegmentationButtonPressed" text="Segmentation" />
                 <Button mnemonicParsing="false" onAction="#onRecognizeButtonPressed" text="Recognize" />
+                <Button mnemonicParsing="false" onAction="#onVectorizeButtonPressed" text="Vectorize" />
             </children>
          <opaqueInsets>
             <Insets />
