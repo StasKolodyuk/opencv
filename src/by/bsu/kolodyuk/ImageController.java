@@ -27,7 +27,7 @@ import org.opencv.imgproc.Imgproc;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class OpenCVController
+public class ImageController
 {
     @FXML
     private BorderPane pane;
@@ -162,9 +162,8 @@ public class OpenCVController
 
     @FXML
     public void onVectorizeButtonPressed() throws Exception {
-        SVGPath svgPath = new SVGPath();
-        svgPath.setContent(ImageTracer.imageToSVG(file.getAbsolutePath(), null, null));
-        pane.setCenter(svgPath);
+        String result = ImageTracer.imageToSVG(file.getAbsolutePath(), null, null).replace(">", ">\n");
+        Platform.runLater(() -> JOptionPane.showMessageDialog(null, result));
     }
 
     public java.awt.Image getImageFromPath() {
